@@ -1,0 +1,23 @@
+{
+  "name": "nouns-trait-finder",
+  "version": "0.1.0",
+  "description": "discord bot for reporting the traits of the next lil-noun.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "nodemon src/index.ts",
+    "format": "prettier 'src/**/*.ts' --write"
+  },
+  "author": "frog",
+  "license": "ISC",
+  "dependencies": {
+    "@lilnouns/assets": "^0.2.1",
+    "dotenv": "^8.2.0",
+    "graphql-request": "^4.2.0",
+    "ioredis": "^5.0.4",
+    "nodemon": "^2.0.16"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.34"
+  }
+}
