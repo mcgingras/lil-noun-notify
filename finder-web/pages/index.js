@@ -35,6 +35,7 @@ export default function Home() {
       const res = await fetch("/api/getNoun", {
         method: "POST",
         body: JSON.stringify({
+          background: 1,
           head: head,
           body: nounBody,
           glasses: eyewear,
@@ -74,7 +75,7 @@ export default function Home() {
             <FloatingLabel controlId="floatingSelect" label="Body">
               <Form.Select
                 aria-label="Floating label select example"
-                onChange={(e) => setBody(e.target.value)}
+                onChange={(e) => setNounBody(e.target.value)}
               >
                 {bodyNames.map((name, idx) => (
                   <option key={idx} value={idx}>

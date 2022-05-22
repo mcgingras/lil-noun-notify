@@ -1,13 +1,11 @@
 import { getCurrentNoun } from "./subgraph";
 import { getNounCache, updateNounCache } from "./cache";
 import { getNounData } from "@lilnouns/assets";
-
 import { IAuctionLifecycleHandler } from "./types";
+import { DCHandler } from "./handlers";
 
-/**
- * Create configured `IAuctionLifecycleHandler`s
- */
 const auctionLifecycleHandlers: IAuctionLifecycleHandler[] = [];
+auctionLifecycleHandlers.push(new DCHandler());
 
 const setupAuction = async () => {
   const currentNoun = await getCurrentNoun();
@@ -15,7 +13,6 @@ const setupAuction = async () => {
     const currentNounId = currentNoun?.id || 1;
     await updateNounCache(currentNounId);
     const data = getNounData(currentNoun?.noun?.seed);
-    console.log(data);
   }
 };
 
@@ -33,9 +30,6 @@ const processAuctionTick = async () => {
     await Promise.all(
       auctionLifecycleHandlers.map((h) => h.handleNewNoun(currentNounId))
     );
-
-    // auction ending soon is just to notify if the auction is ending soon
-    // not something we need neccessarily
   }
 };
 

@@ -5,7 +5,7 @@ const { palette } = ImageData;
 export default function handler(req, res) {
   const params = JSON.parse(req.body);
   const seed = {
-    background: 1,
+    background: parseInt(params.background),
     body: parseInt(params.body),
     accessory: parseInt(params.accessory),
     head: parseInt(params.head),
