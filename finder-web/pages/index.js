@@ -44,6 +44,17 @@ export default function Home() {
       });
       const body = await res.json();
       setb64(body.response);
+
+      // await fetch("/api/newNoun", {
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     background: 1,
+      //     head: head,
+      //     body: nounBody,
+      //     glasses: eyewear,
+      //     accessory: accessory,
+      //   }),
+      // });
     };
     _();
   }, [head, nounBody, eyewear, accessory]);
@@ -110,7 +121,12 @@ export default function Home() {
                 ))}
               </Form.Select>
             </FloatingLabel>
-            <button className="bg-red-500 rounded text-white py-2">Save</button>
+            <a
+              href={`https://discord.com/api/oauth2/authorize?&client_id=977779948590886952&permissions=268435456&scope=bot`}
+              className="bg-red-500 rounded text-white py-2"
+            >
+              Auth Bot
+            </a>
           </div>
           <div className="col-span-2">
             <SVG b64={b64} />

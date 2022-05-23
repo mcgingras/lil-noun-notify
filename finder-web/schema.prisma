@@ -9,23 +9,17 @@ generator client {
 
 model Account {
   id          Int   @id @default(autoincrement())
-  savedSeeds  AccountSavedSeed[]
+  discordId   String // unique?
+  seeds  SavedSeed[]
 }
+
+// implicit many to many
 
 model SavedSeed {
-  id Int @id
-  head Int
-  body Int
-  glasses Int
-  accessory Int
-  accounts AccountSavedSeed[]
-}
-
-model AccountSavedSeed {
-  account Account @relation(fields: [accountId], references: [id])
-  accountId Int
-  savedSeed SavedSeed @relation(fields: [savedSeedId], references: [id])
-  savedSeedId Int
-
-  @@id([accountId, savedSeedId])
+  id         Int @id
+  head       Int
+  body       Int
+  glasses    Int
+  accessory  Int
+  accounts   Account[]
 }
