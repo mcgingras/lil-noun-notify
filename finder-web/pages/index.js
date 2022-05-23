@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { FloatingLabel, Form } from "react-bootstrap";
+import useDiscordAuth from "../hooks/useDiscordAuth";
 import { ImageData } from "@lilnouns/assets";
 
 function SVG({ b64 }) {
@@ -18,6 +19,7 @@ export default function Home() {
   const [nounBody, setNounBody] = useState(1);
   const [eyewear, setEyewear] = useState(1);
   const [accessory, setAccessory] = useState(1);
+  const { authorization, onOpen } = useDiscordAuth("identify");
 
   const {
     images: { bodies, heads, accessories, glasses },
@@ -67,6 +69,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="max-w-screen-lg mx-auto">
+        <button
+          onClick={() => {
+            onOpen();
+          }}
+        >
+          discord
+        </button>
         <h1 className="text-black text-3xl text-center">Lil Nouns Notifier</h1>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-1 flex flex-col space-y-4">
