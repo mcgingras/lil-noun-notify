@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
+import { Transition } from "@headlessui/react";
+import { ArrowCircleUpIcon, XIcon } from "@heroicons/react/solid";
 import { ImageData } from "@lilnouns/assets";
 import Head from "next/head";
 
 // hooks
 import useDiscordAuth from "../hooks/useDiscordAuth";
+
+// components
+import AuthModal from "../components/AuthModal";
 
 function SVG({ b64, className }) {
   return <img className={className} src={`data:image/svg+xml;base64,${b64}`} />;
@@ -17,6 +22,9 @@ export default function Home() {
   const [eyewear, setEyewear] = useState(1);
   const [accessory, setAccessory] = useState(1);
   const { authorization, onOpen } = useDiscordAuth("identify");
+  const [isOpen, setIsOpen] = useState(!!authorization);
+  const [isUp, setUp] = useState(false);
+  const [buttonUp, setButtonUp] = useState(true);
 
   const {
     images: { bodies, heads, accessories, glasses },
@@ -55,9 +63,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full h-screen bg-[#DFD7D5] flex flex-col">
+        <AuthModal
+          isOpen={isOpen}
+          setIsOpen={() => setIsOpen(!isOpen)}
+          authCallback={onOpen}
+        />
         <section className="px-12 h-full flex-grow flex flex-col">
           <header className="pt-12 flex flex-row justify-between">
-            <img src="/lntf_logo.svg" />
+            <img src="/ln.svg" className="h-[58px]" />
             <div className="flex flex-row space-x-4">
               <div className="w-[200px]">
                 <FloatingLabel controlId="floatingSelect" label="Head">
@@ -66,6 +79,7 @@ export default function Home() {
                     aria-label="Floating label select example"
                     onChange={(e) => setHead(e.target.value)}
                   >
+                    <option>Any</option>
                     {headNames.map((name, idx) => (
                       <option key={idx} value={idx}>
                         {name}
@@ -82,6 +96,7 @@ export default function Home() {
                     aria-label="Floating label select example"
                     onChange={(e) => setNounBody(e.target.value)}
                   >
+                    <option>Any</option>
                     {bodyNames.map((name, idx) => (
                       <option key={idx} value={idx}>
                         {name}
@@ -98,6 +113,7 @@ export default function Home() {
                     aria-label="Floating label select example"
                     onChange={(e) => setEyewear(e.target.value)}
                   >
+                    <option>Any</option>
                     {glassesNames.map((name, idx) => (
                       <option key={idx} value={idx}>
                         {name}
@@ -114,6 +130,7 @@ export default function Home() {
                     aria-label="Floating label select example"
                     onChange={(e) => setAccessory(e.target.value)}
                   >
+                    <option>Any</option>
                     {accessoryNames.map((name, idx) => (
                       <option key={idx} value={idx}>
                         {name}
@@ -137,7 +154,46 @@ export default function Home() {
             <SVG b64={b64} className="h-full mx-auto" />
           </div>
         </section>
-        <div className="bg-white w-full h-[200px] rounded-t-[3rem]"></div>
+
+        <Transition
+          show={buttonUp}
+          enter="transition ease-in-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transform transition ease-in-out duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          afterLeave={() => setUp(true)}
+        >
+          <button
+            className="absolute right-8 bottom-8"
+            onClick={() => {
+              setButtonUp(false);
+            }}
+          >
+            <ArrowCircleUpIcon className="h-16 w-16 opacity-50" />
+          </button>
+        </Transition>
+
+        <Transition
+          show={isUp}
+          enter="transform transition-all ease-in-out duration-500 sm:duration-700"
+          enterFrom="h-0"
+          enterTo="h-[200px]"
+          leave="transform transition-all ease-in-out duration-500 sm:duration-700"
+          leaveFrom="h-full"
+          leaveTo="h-0"
+          afterLeave={() => setButtonUp(true)}
+        >
+          <div className="bg-white w-full h-full rounded-t-[3rem] p-4 relative">
+            <XIcon
+              className="w-4 h-4 absolute top-4 right-6"
+              onClick={() => setUp(false)}
+            >
+              Close
+            </XIcon>
+          </div>
+        </Transition>
       </main>
     </div>
   );

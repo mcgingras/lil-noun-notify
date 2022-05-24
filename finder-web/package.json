@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.2",
+    "@heroicons/react": "^1.0.6",
     "@lilnouns/assets": "^0.2.1",
     "@nouns/sdk": "^0.1.6",
     "@prisma/client": "3.14.0",
