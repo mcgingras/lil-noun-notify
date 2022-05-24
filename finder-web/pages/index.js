@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import Head from "next/head";
 import { FloatingLabel, Form } from "react-bootstrap";
-import useDiscordAuth from "../hooks/useDiscordAuth";
 import { ImageData } from "@lilnouns/assets";
+import Head from "next/head";
+
+// hooks
+import useDiscordAuth from "../hooks/useDiscordAuth";
 
 function SVG({ b64, className }) {
   return <img className={className} src={`data:image/svg+xml;base64,${b64}`} />;
@@ -55,67 +57,79 @@ export default function Home() {
       <main className="w-full h-screen bg-[#DFD7D5] flex flex-col">
         <section className="px-12 h-full flex-grow flex flex-col">
           <header className="pt-12 flex flex-row justify-between">
-            <img src="/logo.png" />
+            <img src="/lntf_logo.svg" />
             <div className="flex flex-row space-x-4">
-              <FloatingLabel controlId="floatingSelect" label="Head">
-                <Form.Select
-                  aria-label="Floating label select example"
-                  onChange={(e) => setHead(e.target.value)}
-                >
-                  {headNames.map((name, idx) => (
-                    <option key={idx} value={idx}>
-                      {name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </FloatingLabel>
+              <div className="w-[200px]">
+                <FloatingLabel controlId="floatingSelect" label="Head">
+                  <Form.Select
+                    className="border-0"
+                    aria-label="Floating label select example"
+                    onChange={(e) => setHead(e.target.value)}
+                  >
+                    {headNames.map((name, idx) => (
+                      <option key={idx} value={idx}>
+                        {name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </FloatingLabel>
+              </div>
 
-              <FloatingLabel controlId="floatingSelect" label="Body">
-                <Form.Select
-                  aria-label="Floating label select example"
-                  onChange={(e) => setNounBody(e.target.value)}
-                >
-                  {bodyNames.map((name, idx) => (
-                    <option key={idx} value={idx}>
-                      {name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </FloatingLabel>
+              <div className="w-[200px]">
+                <FloatingLabel controlId="floatingSelect" label="Body">
+                  <Form.Select
+                    className="border-0"
+                    aria-label="Floating label select example"
+                    onChange={(e) => setNounBody(e.target.value)}
+                  >
+                    {bodyNames.map((name, idx) => (
+                      <option key={idx} value={idx}>
+                        {name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </FloatingLabel>
+              </div>
 
-              <FloatingLabel controlId="floatingSelect" label="Glasses">
-                <Form.Select
-                  aria-label="Floating label select example"
-                  onChange={(e) => setEyewear(e.target.value)}
-                >
-                  {glassesNames.map((name, idx) => (
-                    <option key={idx} value={idx}>
-                      {name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </FloatingLabel>
+              <div className="w-[200px]">
+                <FloatingLabel controlId="floatingSelect" label="Glasses">
+                  <Form.Select
+                    className="border-0"
+                    aria-label="Floating label select example"
+                    onChange={(e) => setEyewear(e.target.value)}
+                  >
+                    {glassesNames.map((name, idx) => (
+                      <option key={idx} value={idx}>
+                        {name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </FloatingLabel>
+              </div>
 
-              <FloatingLabel controlId="floatingSelect" label="Accessories">
-                <Form.Select
-                  aria-label="Floating label select example"
-                  onChange={(e) => setAccessory(e.target.value)}
-                >
-                  {accessoryNames.map((name, idx) => (
-                    <option key={idx} value={idx}>
-                      {name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </FloatingLabel>
-              <button
-                className="bg-[#6A79F1] self-start px-4 py-3 text-white rounded"
+              <div className="w-[200px]">
+                <FloatingLabel controlId="floatingSelect" label="Accessories">
+                  <Form.Select
+                    className="border-0"
+                    aria-label="Floating label select example"
+                    onChange={(e) => setAccessory(e.target.value)}
+                  >
+                    {accessoryNames.map((name, idx) => (
+                      <option key={idx} value={idx}>
+                        {name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </FloatingLabel>
+              </div>
+              {/* <button
+                className="bg-[#6A79F1] self-start px-4 text-white rounded"
                 onClick={() => {
                   onOpen();
                 }}
               >
                 Auth
-              </button>
+              </button> */}
             </div>
           </header>
 
