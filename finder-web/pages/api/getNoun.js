@@ -13,10 +13,9 @@ export default function handler(req, res) {
   };
 
   const { parts, background } = getNounData(seed);
-  console.log(parts);
-  parts;
   const svgBinary = buildSVG(
-    [parts[0], parts[1], parts[3]],
+    // [parts[0], parts[1], parts[3]],
+    parts,
     palette,
     background
   );
