@@ -5,7 +5,7 @@ export interface AuctionAndNoun {
 }
 
 export interface IAuctionLifecycleHandler {
-  handleNewNoun(nounId: number): Promise<void>;
+  handleNewNoun(auction: AuctionAndNoun): Promise<void>;
 }
 
 export interface Noun {

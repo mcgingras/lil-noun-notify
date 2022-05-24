@@ -41,7 +41,7 @@ export const sendMessage = async (channel_id, message) => {
 };
 
 export default async function handler(req, res) {
-  const { head, body, glasses, accessory } = JSON.parse(req.body);
+  const { head, body, glasses, accessory } = req.body;
 
   const matchingSeeds = await prisma.savedSeed.findMany({
     where: {
@@ -72,7 +72,6 @@ export default async function handler(req, res) {
   });
 
   const msg = await sendMessage("978160637718954054", "helllo");
-  console.log(msg);
   matchingSeeds.forEach((matchingSeed) => {
     matchingSeed.accounts.forEach(async (account) => {
       let discordId = account.discordId;
@@ -81,5 +80,5 @@ export default async function handler(req, res) {
     });
   });
 
-  // res.status(200).json({ response: svgBase64 });
+  res.status(200).json({ response: "success" });
 }

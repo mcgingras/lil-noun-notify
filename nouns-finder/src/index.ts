@@ -10,9 +10,8 @@ auctionLifecycleHandlers.push(new DCHandler());
 const setupAuction = async () => {
   const currentNoun = await getCurrentNoun();
   if (currentNoun) {
-    const currentNounId = currentNoun?.id || 1;
+    const currentNounId = currentNoun.id;
     await updateNounCache(currentNounId);
-    const data = getNounData(currentNoun?.noun?.seed);
   }
 };
 
@@ -27,9 +26,11 @@ const processAuctionTick = async () => {
   // check if new auction discovered
   if (cachedNounId < currentNounId) {
     await updateNounCache(currentNounId);
-    await Promise.all(
-      auctionLifecycleHandlers.map((h) => h.handleNewNoun(currentNounId))
-    );
+    if (currentNoun) {
+      await Promise.all(
+        auctionLifecycleHandlers.map((h) => h.handleNewNoun(currentNoun))
+      );
+    }
   }
 };
 
