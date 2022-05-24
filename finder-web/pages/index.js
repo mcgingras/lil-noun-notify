@@ -10,6 +10,7 @@ import useDiscordAuth from "../hooks/useDiscordAuth";
 
 // components
 import AuthModal from "../components/AuthModal";
+import NounRender from "../components/NounRender";
 
 function SVG({ b64, className }) {
   return <img className={className} src={`data:image/svg+xml;base64,${b64}`} />;
@@ -17,6 +18,7 @@ function SVG({ b64, className }) {
 
 export default function Home() {
   const [b64, setb64] = useState();
+  const [nouns, setNouns] = useState([]);
   const [head, setHead] = useState(1);
   const [nounBody, setNounBody] = useState(1);
   const [eyewear, setEyewear] = useState(1);
@@ -50,10 +52,22 @@ export default function Home() {
         }),
       });
       const body = await res.json();
+
+      const br = await fetch("/api/getNouns", {
+        method: "POST",
+        body: JSON.stringify({
+          head: head,
+        }),
+      });
+      const b = await br.json();
+
+      setNouns(b.nouns);
       setb64(body.response);
     };
     _();
   }, [head, nounBody, eyewear, accessory]);
+
+  console.log(nouns);
 
   return (
     <div>
@@ -179,19 +193,28 @@ export default function Home() {
           show={isUp}
           enter="transform transition-all ease-in-out duration-500 sm:duration-700"
           enterFrom="h-0"
-          enterTo="h-[200px]"
+          enterTo="h-[264px]"
           leave="transform transition-all ease-in-out duration-500 sm:duration-700"
           leaveFrom="h-full"
           leaveTo="h-0"
           afterLeave={() => setButtonUp(true)}
         >
-          <div className="bg-white w-full h-full rounded-t-[3rem] p-4 relative">
+          <div className="bg-white w-full h-full rounded-t-[3rem] p-8 relative">
             <XIcon
               className="w-4 h-4 absolute top-4 right-6"
               onClick={() => setUp(false)}
             >
               Close
             </XIcon>
+            <div className="flex flex-row space-x-4">
+              {nouns.map((noun) => {
+                return (
+                  <a href={`https://lilnouns.wtf/lilnoun/${noun.id}`}>
+                    <NounRender seed={noun.seed} />
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </Transition>
       </main>
