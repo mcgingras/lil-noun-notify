@@ -35,6 +35,8 @@ export default function Home() {
     accessory.filename.slice(10)
   );
 
+  console.log(nouns);
+
   useEffect(() => {
     const getNouns = async () => {
       const fetchNounsResponse = await fetch("/api/getNouns", {
@@ -196,43 +198,32 @@ export default function Home() {
             >
               <span className="mx-1">Hide results</span>
             </button>
-            <div className="grid grid-cols-8 gap-8">
-              {nouns.length > 8 && (
-                <>
-                  {nouns.slice(0, 7).map((noun) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setActiveNoun(noun);
-                          setProfileModalOpen(true);
-                        }}
-                      >
-                        {/* <a href={`https://lilnouns.wtf/lilnoun/${noun.id}`}> */}
-                        <NounRender seed={noun.seed} className="rounded-lg" />
-                        {/* </a> */}
-                      </div>
-                    );
-                  })}
-                  <div className="h-full w-full bg-gray-100 text-gray-400 text-3xl flex justify-center items-center londrina-regular">
-                    Show more
-                  </div>
-                </>
+            <div className="flex flex-row space-x-8">
+              {nouns.length === 0 && (
+                <span className="h-[200px] w-full text-gray-400 londrina-regular text-5xl flex items-center justify-center">
+                  No lil nouns fit that seed :(
+                </span>
               )}
-              {nouns.length <= 8 &&
-                nouns.map((noun) => {
-                  return (
-                    <div
-                      onClick={() => {
-                        setActiveNoun(noun);
-                        setProfileModalOpen(true);
-                      }}
-                    >
-                      {/* <a href={`https://lilnouns.wtf/lilnoun/${noun.id}`}> */}
-                      <NounRender seed={noun.seed} className="rounded-lg" />
-                      {/* </a> */}
-                    </div>
-                  );
-                })}
+              {nouns.slice(0, 7).map((noun) => {
+                return (
+                  <div
+                    onClick={() => {
+                      setActiveNoun(noun);
+                      setProfileModalOpen(true);
+                    }}
+                  >
+                    <NounRender
+                      seed={noun.seed}
+                      className="h-[200px] rounded-lg"
+                    />
+                  </div>
+                );
+              })}
+              {nouns.length > 8 && (
+                <div className="h-full w-full bg-gray-100 text-gray-400 text-3xl flex justify-center items-center londrina-regular">
+                  Show more
+                </div>
+              )}
             </div>
           </div>
         </Transition>
