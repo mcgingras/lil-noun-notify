@@ -35,8 +35,6 @@ export default function Home() {
     accessory.filename.slice(10)
   );
 
-  console.log(nouns);
-
   useEffect(() => {
     const getNouns = async () => {
       const fetchNounsResponse = await fetch("/api/getNouns", {
@@ -70,7 +68,7 @@ export default function Home() {
         />
         <section className="px-12 h-full flex-grow flex flex-col">
           <header className="pt-12 flex flex-row justify-between">
-            <img src="/ln.svg" className="h-[58px]" />
+            <img src="/ln.svg" className="h-[58px]" alt="current noun" />
             <div className="flex flex-row space-x-4">
               <div className="w-[200px]">
                 <FloatingLabel controlId="floatingSelect" label="Head">
@@ -204,9 +202,10 @@ export default function Home() {
                   No lil nouns fit that seed :(
                 </span>
               )}
-              {nouns.slice(0, 7).map((noun) => {
+              {nouns.slice(0, 7).map((noun, idx) => {
                 return (
                   <div
+                    key={idx}
                     onClick={() => {
                       setActiveNoun(noun);
                       setProfileModalOpen(true);

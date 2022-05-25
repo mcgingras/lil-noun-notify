@@ -63,6 +63,7 @@ export default function ProfileModal({ isOpen, setIsOpen, noun }) {
                       className="text-xs text-gray-400 mr-2 underline-offset-2 hover:text-gray-500"
                       href={`https://opensea.io/assets/ethereum/0x4b10701bfd7bfedc47d50562b76b436fbb5bdb3b/${noun.id}`}
                       target="_blank"
+                      rel="noreferrer"
                     >
                       Opensea
                     </a>
@@ -70,6 +71,7 @@ export default function ProfileModal({ isOpen, setIsOpen, noun }) {
                       className="text-xs text-gray-400 mr-2 underline-offset-2 hover:text-gray-500"
                       href={`https://lilnouns.wtf/lilnoun/${noun.id}`}
                       target="_blank"
+                      rel="noreferrer"
                     >
                       lilnouns
                     </a>
