@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 
-const NounRender = ({ seed }) => {
+const NounRender = ({ seed, className }) => {
   const [b64, setb64] = useState();
 
-  console.log(b64);
+  const filteredSeed = Object.keys(seed).reduce((acc, entry) => {
+    if (seed[entry] !== "-1") {
+      acc[entry] = seed[entry];
+    }
+    return acc;
+  }, {});
 
   useEffect(() => {
     const _ = async () => {
       const res = await fetch("/api/getNoun", {
         method: "POST",
-        body: JSON.stringify({
-          background: 1,
-          head: seed.head,
-          body: seed.body,
-          glasses: seed.glasses,
-          accessory: seed.accessory,
-        }),
+        body: JSON.stringify(filteredSeed),
       });
       const body = await res.json();
 
@@ -26,8 +25,12 @@ const NounRender = ({ seed }) => {
 
   return (
     <img
-      className="h-[200px] rounded-lg"
-      src={`data:image/svg+xml;base64,${b64}`}
+      className={className}
+      src={
+        Object.keys(filteredSeed).length === 0
+          ? "/lil-loading-skull.gif"
+          : `data:image/svg+xml;base64,${b64}`
+      }
     />
   );
 };

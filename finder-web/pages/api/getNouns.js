@@ -5,11 +5,18 @@ import { request, gql } from "graphql-request";
  * @returns a list of Noun types.
  */
 export async function getNounsBySeed(seed) {
+  const filteredSeed = Object.keys(seed).reduce((acc, entry) => {
+    if (seed[entry] !== "-1") {
+      acc[entry] = seed[entry];
+    }
+    return acc;
+  }, {});
+
   const seedRes = await request(
     "https://api.thegraph.com/subgraphs/name/lilnounsdao/lil-nouns-subgraph",
     gql`
       query {
-        seeds(where: ${JSON.stringify(seed).replaceAll('"', "")}) {
+        seeds(where: ${JSON.stringify(filteredSeed).replaceAll('"', "")}) {
           id
         }
       }
@@ -23,7 +30,7 @@ export async function getNounsBySeed(seed) {
     "https://api.thegraph.com/subgraphs/name/lilnounsdao/lil-nouns-subgraph",
     gql`
     query {
-      nouns(where: { seed_in: ${JSON.stringify(ids)} }) {
+      nouns(first: 8, where: { seed_in: ${JSON.stringify(ids)} }) {
         id
         seed {
           id
