@@ -3,8 +3,6 @@ import { Fragment } from "react";
 import NounRender from "./NounRender";
 
 export default function ProfileModal({ isOpen, setIsOpen, noun }) {
-  console.log("noun is");
-  console.log(noun);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog

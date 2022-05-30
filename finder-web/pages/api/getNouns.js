@@ -30,7 +30,7 @@ export async function getNounsBySeed(seed) {
     "https://api.thegraph.com/subgraphs/name/lilnounsdao/lil-nouns-subgraph",
     gql`
     query {
-      nouns(first: 8, where: { seed_in: ${JSON.stringify(ids)} }) {
+      nouns(where: { seed_in: ${JSON.stringify(ids)} }) {
         id
         seed {
           id

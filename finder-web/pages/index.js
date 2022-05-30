@@ -66,10 +66,14 @@ export default function Home() {
           setIsOpen={setProfileModalOpen}
           noun={activeNoun}
         />
-        <section className="px-12 h-full flex-grow flex flex-col">
-          <header className="pt-12 flex flex-row justify-between">
-            <img src="/ln.svg" className="h-[58px]" alt="current noun" />
-            <div className="flex flex-row space-x-4">
+        <section className="px-6 lg:px-12 h-full flex-grow flex flex-col">
+          <header className="pt-6 lg:pt-12 lg:flex lg:flex-row lg:justify-between">
+            <img
+              src="/ln.svg"
+              className="mb-4 h-[40px] ml-auto mr-auto lg:h-[58px] lg:ml-0 lg:mr-0 lg:mb-0"
+              alt="current noun"
+            />
+            <div className="flex flex-row space-x-4 justify-between">
               <div className="w-[200px]">
                 <FloatingLabel controlId="floatingSelect" label="Head">
                   <Form.Select
@@ -151,37 +155,37 @@ export default function Home() {
               }}
             />
           </div>
-        </section>
 
-        <Transition
-          show={buttonUp}
-          enter="transition ease-in-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transform transition ease-in-out duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          afterLeave={() => setUp(true)}
-        >
-          {nouns.length > 0 && (
-            <button
-              className="absolute right-8 bottom-8 bg-yellow-400 text-yellow-700 rounded-full p-3 flex items-center"
-              onClick={() => {
-                setButtonUp(false);
-              }}
-            >
-              {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
-              <span className="mx-1">Show results</span>
-              {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
-            </button>
-          )}
-        </Transition>
+          <Transition
+            show={buttonUp}
+            enter="transition ease-in-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transform transition ease-in-out duration-300"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+            afterLeave={() => setUp(true)}
+          >
+            {nouns.length > 0 && (
+              <button
+                className="absolute right-8 bottom-8 bg-gray-900 text-white rounded-full p-3 flex items-center"
+                onClick={() => {
+                  setButtonUp(false);
+                }}
+              >
+                {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
+                <span className="mx-1">See {nouns.length} results</span>
+                {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
+              </button>
+            )}
+          </Transition>
+        </section>
 
         <Transition
           show={isUp}
           enter="transform transition-all ease-in-out duration-500 sm:duration-700"
           enterFrom="h-0"
-          enterTo="h-[264px]"
+          enterTo="h-[calc(100vh-200px)]"
           leave="transform transition-all ease-in-out duration-500 sm:duration-700"
           leaveFrom="h-full"
           leaveTo="h-0"
@@ -196,13 +200,14 @@ export default function Home() {
             >
               <span className="mx-1">Hide results</span>
             </button>
-            <div className="flex flex-row space-x-8">
+            {/* <div className="flex flex-row space-x-8"> */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8 h-full overflow-scroll">
               {nouns.length === 0 && (
                 <span className="h-[200px] w-full text-gray-400 londrina-regular text-5xl flex items-center justify-center">
                   No lil nouns fit that seed :(
                 </span>
               )}
-              {nouns.slice(0, 7).map((noun, idx) => {
+              {nouns.map((noun, idx) => {
                 return (
                   <div
                     key={idx}
@@ -211,18 +216,15 @@ export default function Home() {
                       setProfileModalOpen(true);
                     }}
                   >
-                    <NounRender
-                      seed={noun.seed}
-                      className="h-[200px] rounded-lg"
-                    />
+                    <NounRender seed={noun.seed} className="rounded-lg" />
                   </div>
                 );
               })}
-              {nouns.length > 8 && (
-                <div className="h-full w-full bg-gray-100 text-gray-400 text-3xl flex justify-center items-center londrina-regular">
-                  Show more
-                </div>
-              )}
+              {/* {nouns.length >= 13 && (
+                  <div className="bg-gray-100 text-gray-400 text-3xl flex justify-center items-center londrina-regular cursor-pointer">
+                    Next
+                  </div>
+                )} */}
             </div>
           </div>
         </Transition>

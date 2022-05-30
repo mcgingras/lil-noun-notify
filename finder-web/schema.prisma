@@ -7,14 +7,21 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum TraitType {
+  HEAD
+  BODY
+  GLASSES
+  ACCESSORY
+}
+
+// implicit many to many
 model Account {
-  id          Int   @id @default(autoincrement())
-  discordId   String // unique?
+  id          Int     @id @default(autoincrement())
+  discordId   String  @unique
   seeds  SavedSeed[]
 }
 
 // implicit many to many
-
 model SavedSeed {
   id         Int @id
   head       Int
@@ -22,4 +29,13 @@ model SavedSeed {
   glasses    Int
   accessory  Int
   accounts   Account[]
+}
+
+
+model Trait {
+  id       Int @id @default(autoincrement())
+  localId  Int
+  type     TraitType
+  svg      String
+  // name     String
 }

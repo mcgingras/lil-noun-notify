@@ -23,16 +23,7 @@ const NounRender = ({ seed, className }) => {
     _();
   }, [seed]);
 
-  return (
-    <img
-      className={className}
-      src={
-        Object.keys(filteredSeed).length === 0
-          ? "/lil-loading-skull.gif"
-          : `data:image/svg+xml;base64,${b64}`
-      }
-    />
-  );
+  return <img className={className} src={`data:image/svg+xml;base64,${b64}`} />;
 };
 
 export default NounRender;
