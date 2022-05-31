@@ -8,18 +8,19 @@ const {
   images: { bodies, heads, glasses, accessories },
 } = ImageData;
 
-const BG_COLOR = "FFFFFF";
+const BG_COLOR = "DFD7D5";
 
 const traitToSVG = async () => {
-  accessories.forEach(async (body, i) => {
+  glasses.forEach(async (body, i) => {
     const svgBinary = buildSVG([body], palette, BG_COLOR);
     const svgBase64 = btoa(svgBinary);
 
     await prisma.trait.create({
       data: {
         localId: i,
-        type: "ACCESSORY",
+        type: "GLASSES",
         svg: svgBase64,
+        name: body.filename,
       },
     });
   });

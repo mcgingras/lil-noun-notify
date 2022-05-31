@@ -8,6 +8,8 @@ import Head from "next/head";
 // components
 import ProfileModal from "../components/ProfileModal";
 import NounRender from "../components/NounRender";
+import IconDropdown from "../components/IconDropdown";
+import IconModal from "../components/IconModal";
 
 export default function Home() {
   const [nouns, setNouns] = useState([]);
@@ -66,6 +68,7 @@ export default function Home() {
           setIsOpen={setProfileModalOpen}
           noun={activeNoun}
         />
+        <IconModal isOpen={true} setIsOpen={() => {}} />
         <section className="px-6 lg:px-12 h-full flex-grow flex flex-col">
           <header className="pt-6 lg:pt-12 lg:flex lg:flex-row lg:justify-between">
             <img
@@ -74,7 +77,7 @@ export default function Home() {
               alt="current noun"
             />
             <div className="flex flex-row space-x-4 justify-between">
-              <div className="w-[200px]">
+              <div className="w-[300px]">
                 <FloatingLabel controlId="floatingSelect" label="Head">
                   <Form.Select
                     className="border-0"
@@ -144,7 +147,7 @@ export default function Home() {
             </div>
           </header>
 
-          <div className="flex-grow">
+          <div className="grow">
             <NounRender
               className="h-full mx-auto"
               seed={{
@@ -161,10 +164,16 @@ export default function Home() {
             enter="transition ease-in-out duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="transform transition ease-in-out duration-300"
+            leave="transition ease-in-out duration-300"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            afterLeave={() => setUp(true)}
+            afterLeave={() => {
+              setUp(true);
+              // document.getElementById("bottom");
+              // setTimeout(() => {
+              //   bottom.scrollIntoView();
+              // }, 700);
+            }}
           >
             {nouns.length > 0 && (
               <button
@@ -193,7 +202,7 @@ export default function Home() {
         >
           <div className="bg-white w-full h-full rounded-t-[3rem] p-8 relative">
             <button
-              className="absolute right-8 top-[-5rem] bg-gray-200 text-gray-500 rounded-full p-3 flex items-center"
+              className="absolute right-8 top-[-5rem] bg-gray-900 text-white rounded-full p-3 flex items-center"
               onClick={() => {
                 setUp(false);
               }}
@@ -228,6 +237,7 @@ export default function Home() {
             </div>
           </div>
         </Transition>
+        <span id="bottom"></span>
       </main>
     </div>
   );
