@@ -1,18 +1,17 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-const IconModal = ({ isOpen, setIsOpen }) => {
+const IconModal = ({ isOpen, setIsOpen, selected, setSelected, type }) => {
   const [traits, setTraits] = useState([]);
-  const [selected, setSelected] = useState();
 
   useEffect(() => {
     const getTraits = async () => {
       const traitsResponse = await fetch("/api/getTraits", {
         method: "POST",
+        body: JSON.stringify({ type }),
       });
 
       const traitsJson = await traitsResponse.json();
-      console.log(traitsJson.response);
       setTraits(traitsJson.response);
     };
     getTraits();
@@ -53,7 +52,11 @@ const IconModal = ({ isOpen, setIsOpen }) => {
                   {traits.map((trait) => {
                     return (
                       <img
-                        className="rounded"
+                        onClick={() => {
+                          setSelected(trait);
+                          setIsOpen(false);
+                        }}
+                        className="rounded cursor-pointer"
                         src={`data:image/svg+xml;base64,${trait.svg}`}
                       />
                     );
