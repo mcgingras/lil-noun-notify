@@ -174,8 +174,8 @@ export default function Home() {
             {/* <div className="flex flex-row space-x-8"> */}
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8 h-full overflow-scroll">
               {nouns.length === 0 && (
-                <span className="h-[200px] w-full text-gray-400 londrina-regular text-5xl flex items-center justify-center">
-                  No lil nouns fit that seed :(
+                <span className="h-[200px] w-full text-gray-400 text-center londrina-regular text-5xl flex items-center justify-center col-span-2 md:col-span-4 lg:col-span-8">
+                  No lil nouns have been born with these traits yet :(
                 </span>
               )}
               {nouns.map((noun, idx) => {
