@@ -53,6 +53,8 @@ export default function Home() {
     getNouns();
   }, [head, nounBody, eyewear, accessory]);
 
+  console.log(head);
+
   return (
     <div>
       <Head>
@@ -95,15 +97,32 @@ export default function Home() {
           </header>
 
           <div className="grow">
-            <NounRender
-              className="h-full mx-auto"
-              seed={{
-                head: head.localId,
-                body: nounBody.localId,
-                glasses: eyewear.localId,
-                accessory: accessory.localId,
-              }}
-            />
+            {head === "-1" &&
+            nounBody === "-1" &&
+            eyewear === "-1" &&
+            accessory === "-1" ? (
+              <div className="h-full flex items-center justify-center">
+                <div>
+                  <h3 className="text-4xl font-bold mx-auto text-center londrina-regular text-gray-900">
+                    No traits selected!
+                  </h3>
+                  <p className="block mx-auto max-w-[400px] text-center text-gray-700 mt-1">
+                    Use the selections above to build a lil noun and see which
+                    lil nouns have already been born with those traits!
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <NounRender
+                className="h-full mx-auto"
+                seed={{
+                  head: head.localId,
+                  body: nounBody.localId,
+                  glasses: eyewear.localId,
+                  accessory: accessory.localId,
+                }}
+              />
+            )}
           </div>
 
           <Transition
@@ -122,18 +141,14 @@ export default function Home() {
               // }, 700);
             }}
           >
-            {nouns.length > 0 && (
-              <button
-                className="absolute right-8 bottom-8 bg-gray-900 text-white rounded-full p-3 flex items-center"
-                onClick={() => {
-                  setButtonUp(false);
-                }}
-              >
-                {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
-                <span className="mx-1">See {nouns.length} results</span>
-                {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
-              </button>
-            )}
+            <button
+              className="absolute right-8 bottom-8 bg-gray-900 text-white rounded-full p-3 flex items-center"
+              onClick={() => {
+                setButtonUp(false);
+              }}
+            >
+              <span className="mx-1">See {nouns.length} results</span>
+            </button>
           </Transition>
         </section>
 

@@ -56,7 +56,10 @@ const IconModal = ({ isOpen, setIsOpen, selected, setSelected, type }) => {
                           setSelected(trait);
                           setIsOpen(false);
                         }}
-                        className="rounded cursor-pointer"
+                        className={`rounded cursor-pointer ${
+                          selected.id === trait.id &&
+                          "ring-2 ring-gray-500 ring-offset-4"
+                        }`}
                         src={`data:image/svg+xml;base64,${trait.svg}`}
                       />
                     );
