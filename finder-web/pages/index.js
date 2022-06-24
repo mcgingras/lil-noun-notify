@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { XIcon, SparklesIcon } from "@heroicons/react/solid";
-import { ImageData } from "@lilnouns/assets";
 import Head from "next/head";
+import { database } from "../firebase/config";
+import { ref, set } from "firebase/database";
 
 // components
 import ProfileModal from "../components/ProfileModal";
@@ -23,10 +24,6 @@ export default function Home() {
   // transition states
   const [isUp, setUp] = useState(false);
   const [buttonUp, setButtonUp] = useState(true);
-
-  // const {
-  //   images: { bodies, heads, accessories, glasses },
-  // } = ImageData;
 
   // const bodyNames = bodies.map((body) => body.filename.slice(5));
   // const headNames = heads.map((head) => head.filename.slice(5));
@@ -53,7 +50,11 @@ export default function Home() {
     getNouns();
   }, [head, nounBody, eyewear, accessory]);
 
-  console.log(head);
+  // const writeData = () => {
+  //   set(ref(database, "users/" + 1), {
+  //     username: "frog",
+  //   });
+  // };
 
   return (
     <div>
@@ -67,6 +68,12 @@ export default function Home() {
           isOpen={profileModalOpen}
           setIsOpen={setProfileModalOpen}
           noun={activeNoun}
+          traits={{
+            head: head,
+            body: nounBody,
+            glasses: eyewear,
+            accessory: accessory,
+          }}
         />
 
         <section className="px-6 lg:px-12 h-full flex-grow flex flex-col">
@@ -101,7 +108,7 @@ export default function Home() {
             nounBody === "-1" &&
             eyewear === "-1" &&
             accessory === "-1" ? (
-              <div className="h-full flex items-center justify-center">
+              <div className="h-full flex items-center justify-center mb-20">
                 <div>
                   <h3 className="text-4xl font-bold mx-auto text-center londrina-regular text-gray-900">
                     No traits selected!
@@ -187,7 +194,10 @@ export default function Home() {
                       setProfileModalOpen(true);
                     }}
                   >
-                    <NounRender seed={noun.seed} className="rounded-lg" />
+                    <NounRender
+                      seed={noun.seed}
+                      className="rounded-lg cursor-pointer hover:shadow-xl transition-all"
+                    />
                   </div>
                 );
               })}

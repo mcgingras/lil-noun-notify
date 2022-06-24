@@ -49,6 +49,15 @@ const IconModal = ({ isOpen, setIsOpen, selected, setSelected, type }) => {
             >
               <Dialog.Panel className="w-full max-w-screen-xl transform overflow-hidden rounded-2xl bg-white p-8 text-left align-middle shadow-xl transition-all">
                 <div className="grid grid-cols-6 gap-4">
+                  <span
+                    onClick={() => {
+                      setSelected(-1);
+                      setIsOpen(false);
+                    }}
+                    className="londrina-regular text-gray-500 text-2xl bg-gray-200 rounded flex items-center justify-center cursor-pointer"
+                  >
+                    clear selected
+                  </span>
                   {traits.map((trait, idx) => {
                     return (
                       <img
