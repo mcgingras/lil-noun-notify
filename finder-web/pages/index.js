@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { FloatingLabel, Form } from "react-bootstrap";
 import { Transition } from "@headlessui/react";
 import { XIcon, SparklesIcon } from "@heroicons/react/solid";
 import { ImageData } from "@lilnouns/assets";
@@ -8,6 +7,7 @@ import Head from "next/head";
 // components
 import ProfileModal from "../components/ProfileModal";
 import NounRender from "../components/NounRender";
+import SelectModal from "../components/SelectModal";
 
 export default function Home() {
   const [nouns, setNouns] = useState([]);
@@ -24,26 +24,26 @@ export default function Home() {
   const [isUp, setUp] = useState(false);
   const [buttonUp, setButtonUp] = useState(true);
 
-  const {
-    images: { bodies, heads, accessories, glasses },
-  } = ImageData;
+  // const {
+  //   images: { bodies, heads, accessories, glasses },
+  // } = ImageData;
 
-  const bodyNames = bodies.map((body) => body.filename.slice(5));
-  const headNames = heads.map((head) => head.filename.slice(5));
-  const glassesNames = glasses.map((glasses) => glasses.filename.slice(8));
-  const accessoryNames = accessories.map((accessory) =>
-    accessory.filename.slice(10)
-  );
+  // const bodyNames = bodies.map((body) => body.filename.slice(5));
+  // const headNames = heads.map((head) => head.filename.slice(5));
+  // const glassesNames = glasses.map((glasses) => glasses.filename.slice(8));
+  // const accessoryNames = accessories.map((accessory) =>
+  //   accessory.filename.slice(10)
+  // );
 
   useEffect(() => {
     const getNouns = async () => {
       const fetchNounsResponse = await fetch("/api/getNouns", {
         method: "POST",
         body: JSON.stringify({
-          head: head,
-          body: nounBody,
-          glasses: eyewear,
-          accessory: accessory,
+          head: head.localId,
+          body: nounBody.localId,
+          glasses: eyewear.localId,
+          accessory: accessory.localId,
         }),
       });
 
@@ -52,6 +52,8 @@ export default function Home() {
     };
     getNouns();
   }, [head, nounBody, eyewear, accessory]);
+
+  console.log(head);
 
   return (
     <div>
@@ -66,6 +68,7 @@ export default function Home() {
           setIsOpen={setProfileModalOpen}
           noun={activeNoun}
         />
+
         <section className="px-6 lg:px-12 h-full flex-grow flex flex-col">
           <header className="pt-6 lg:pt-12 lg:flex lg:flex-row lg:justify-between">
             <img
@@ -74,86 +77,52 @@ export default function Home() {
               alt="current noun"
             />
             <div className="flex flex-row space-x-4 justify-between">
-              <div className="w-[200px]">
-                <FloatingLabel controlId="floatingSelect" label="Head">
-                  <Form.Select
-                    className="border-0"
-                    aria-label="Floating label select example"
-                    onChange={(e) => setHead(e.target.value)}
-                  >
-                    <option value={-1}>Any</option>
-                    {headNames.map((name, idx) => (
-                      <option key={idx} value={idx}>
-                        {name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </FloatingLabel>
-              </div>
-
-              <div className="w-[200px]">
-                <FloatingLabel controlId="floatingSelect" label="Body">
-                  <Form.Select
-                    className="border-0"
-                    aria-label="Floating label select example"
-                    onChange={(e) => setNounBody(e.target.value)}
-                  >
-                    <option value={-1}>Any</option>
-                    {bodyNames.map((name, idx) => (
-                      <option key={idx} value={idx}>
-                        {name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </FloatingLabel>
-              </div>
-
-              <div className="w-[200px]">
-                <FloatingLabel controlId="floatingSelect" label="Glasses">
-                  <Form.Select
-                    className="border-0"
-                    aria-label="Floating label select example"
-                    onChange={(e) => setEyewear(e.target.value)}
-                  >
-                    <option value={-1}>Any</option>
-                    {glassesNames.map((name, idx) => (
-                      <option key={idx} value={idx}>
-                        {name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </FloatingLabel>
-              </div>
-
-              <div className="w-[200px]">
-                <FloatingLabel controlId="floatingSelect" label="Accessories">
-                  <Form.Select
-                    className="border-0"
-                    aria-label="Floating label select example"
-                    onChange={(e) => setAccessory(e.target.value)}
-                  >
-                    <option value={-1}>Any</option>
-                    {accessoryNames.map((name, idx) => (
-                      <option key={idx} value={idx}>
-                        {name}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </FloatingLabel>
-              </div>
+              <SelectModal type="HEAD" selected={head} setSelected={setHead} />
+              <SelectModal
+                type="BODY"
+                selected={nounBody}
+                setSelected={setNounBody}
+              />
+              <SelectModal
+                type="GLASSES"
+                selected={eyewear}
+                setSelected={setEyewear}
+              />
+              <SelectModal
+                type="ACCESSORY"
+                selected={accessory}
+                setSelected={setAccessory}
+              />
             </div>
           </header>
 
-          <div className="flex-grow">
-            <NounRender
-              className="h-full mx-auto"
-              seed={{
-                head: head,
-                body: nounBody,
-                glasses: eyewear,
-                accessory: accessory,
-              }}
-            />
+          <div className="grow">
+            {head === "-1" &&
+            nounBody === "-1" &&
+            eyewear === "-1" &&
+            accessory === "-1" ? (
+              <div className="h-full flex items-center justify-center">
+                <div>
+                  <h3 className="text-4xl font-bold mx-auto text-center londrina-regular text-gray-900">
+                    No traits selected!
+                  </h3>
+                  <p className="block mx-auto max-w-[400px] text-center text-gray-700 mt-1">
+                    Use the selections above to build a lil noun and see which
+                    lil nouns have already been born with those traits!
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <NounRender
+                className="h-full mx-auto"
+                seed={{
+                  head: head.localId,
+                  body: nounBody.localId,
+                  glasses: eyewear.localId,
+                  accessory: accessory.localId,
+                }}
+              />
+            )}
           </div>
 
           <Transition
@@ -161,23 +130,25 @@ export default function Home() {
             enter="transition ease-in-out duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
-            leave="transform transition ease-in-out duration-300"
+            leave="transition ease-in-out duration-300"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            afterLeave={() => setUp(true)}
+            afterLeave={() => {
+              setUp(true);
+              // document.getElementById("bottom");
+              // setTimeout(() => {
+              //   bottom.scrollIntoView();
+              // }, 700);
+            }}
           >
-            {nouns.length > 0 && (
-              <button
-                className="absolute right-8 bottom-8 bg-gray-900 text-white rounded-full p-3 flex items-center"
-                onClick={() => {
-                  setButtonUp(false);
-                }}
-              >
-                {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
-                <span className="mx-1">See {nouns.length} results</span>
-                {/* <SparklesIcon className="h-5 w-5 opacity-100" /> */}
-              </button>
-            )}
+            <button
+              className="absolute right-8 bottom-8 bg-gray-900 text-white rounded-full p-3 flex items-center"
+              onClick={() => {
+                setButtonUp(false);
+              }}
+            >
+              <span className="mx-1">See {nouns.length} results</span>
+            </button>
           </Transition>
         </section>
 
@@ -193,7 +164,7 @@ export default function Home() {
         >
           <div className="bg-white w-full h-full rounded-t-[3rem] p-8 relative">
             <button
-              className="absolute right-8 top-[-5rem] bg-gray-200 text-gray-500 rounded-full p-3 flex items-center"
+              className="absolute right-8 top-[-5rem] bg-gray-900 text-white rounded-full p-3 flex items-center"
               onClick={() => {
                 setUp(false);
               }}
@@ -228,6 +199,7 @@ export default function Home() {
             </div>
           </div>
         </Transition>
+        <span id="bottom"></span>
       </main>
     </div>
   );
