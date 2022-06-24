@@ -17,7 +17,6 @@ export default function Example() {
       });
 
       const traitsJson = await traitsResponse.json();
-      console.log(traitsJson.response);
       setTraits(traitsJson.response);
     };
     getNouns();
